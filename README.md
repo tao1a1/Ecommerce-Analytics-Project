@@ -46,6 +46,19 @@ The page also includes:
 * Monthly order trend
 * Top 10 states by GMV
 * Top 10 product categories by GMV
+## Dashboard Preview
+
+### Executive Overview
+
+![Executive Overview](screenshots/01_Executive_Overview.png)
+
+### Customer Analytics
+
+![Customer Analytics](screenshots/02_Customer_Analytics.png)
+
+### Product & Operations
+
+![Product & Operations](screenshots/03_Product_Operations.png)
 
 ---
 
