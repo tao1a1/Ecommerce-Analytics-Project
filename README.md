@@ -1,159 +1,173 @@
-# E-commerce Sales & Customer Analytics Dashboard
+# 电商销售与客户分析项目 | SQL + Power BI
 
-## Project Overview
+## 项目简介
 
-This project analyzes e-commerce sales, customer behavior, product performance, and delivery operations using SQL and Power BI.
+本项目基于 Olist 巴西电商公开数据集，使用 **MySQL** 完成数据清洗、数据建模和业务指标计算，并使用 **Power BI + DAX** 搭建交互式数据分析仪表板。
 
-The goal was to transform raw e-commerce data into business insights and build an interactive dashboard that helps understand:
-
-* Overall sales performance
-* Customer purchasing behavior
-* Customer retention
-* Product category performance
-* Delivery performance
-* The relationship between delivery delays and customer satisfaction
+项目主要从 **销售表现、客户行为、商品表现和配送运营** 四个方向进行分析，并通过 RFM 客户分层、复购分析和配送时效分析，发现影响业务增长和客户体验的关键问题。
 
 ---
 
-## Tools Used
+## 使用工具
 
-* SQL
+* MySQL
 * Power BI
 * DAX
-* Data Modeling
-* Data Visualization
-* RFM Customer Segmentation
+* SQL
+* RFM 客户分层
+* 数据清洗与建模
+* 数据可视化
+* 业务指标分析
 
 ---
 
-## Dashboard Pages
+## 数据处理流程
 
-### 1. Executive Overview
+本项目按照以下流程完成数据处理：
 
-The Executive Overview provides a high-level view of business performance.
+**Raw Data → Clean Data → Fact Tables → Analysis Mart → Power BI**
 
-Key metrics:
+主要工作包括：
 
-* GMV: R$13.22M
-* Orders: 96,478
-* Customers: 93,358
-* Average Order Value: R$137.04
-* Repeat Customer Rate: 3.00%
+* 对原始电商数据进行清洗和字段标准化
+* 聚合订单商品和评价数据，避免一对多关联导致销售额重复计算
+* 构建订单级、商品级和客户级分析数据集
+* 使用 SQL 计算 GMV、订单量、客单价、配送时长等核心指标
+* 使用窗口函数分析月度销售变化
+* 使用 RFM 方法进行客户分层
+* 对 SQL 结果和 Power BI 指标进行数据一致性校验
 
-The page also includes:
+---
 
-* Monthly GMV trend
-* Monthly order trend
-* Top 10 states by GMV
-* Top 10 product categories by GMV
 ## Dashboard Preview
 
-### Executive Overview
+### 1. Executive Overview（经营概览）
 
 ![Executive Overview](screenshots/01_Executive_Overview.png)
 
-### Customer Analytics
+主要指标：
+
+* GMV：**R$13.22M**
+* Orders（订单量）：**96,478**
+* Customers（客户数）：**93,358**
+* AOV（平均客单价）：**R$137.04**
+* Repeat Rate（复购率）：**3.00%**
+
+主要分析：
+
+* 月度 GMV 趋势
+* 月度订单趋势
+* 各州销售额排名
+* 商品品类销售额排名
+
+---
+
+### 2. Customer Analytics（客户分析）
 
 ![Customer Analytics](screenshots/02_Customer_Analytics.png)
 
-### Product & Operations
+主要分析：
+
+* 客户数量与复购率
+* 平均购买频次
+* 平均客户消费金额
+* Repeat / One-time Customer（复购 / 一次性客户）分析
+* RFM 客户分层
+* Recency（最近购买时间）分布
+* Monetary（消费金额）分布
+
+通过 RFM 分析发现，**Lost Customers（流失客户）约 49,261 人**，说明客户留存和召回存在较大的优化空间。
+
+---
+
+### 3. Product & Operations（商品与运营分析）
 
 ![Product & Operations](screenshots/03_Product_Operations.png)
 
----
+主要指标：
 
-### 2. Customer Analytics
+* Product GMV：**R$13.22M**
+* Unique Products（不同商品数）：**32,216**
+* Avg Delivery Days（平均配送时长）：**12.50 天**
+* Late Delivery Rate（延迟配送率）：**8.11%**
+* Avg Review Score（平均评价）：**4.16**
 
-This page focuses on customer behavior and retention.
+主要分析：
 
-Key metrics:
-
-* Customers: 93,358
-* Repeat Rate: 3.00%
-* Average Purchase Frequency: 1.03
-* Average Customer Spend: R$141.62
-
-The analysis includes:
-
-* One-time vs repeat customers
-* Purchase frequency distribution
-* RFM customer segmentation
-* Customer recency
-* Customer monetary segments
+* 商品品类 GMV 贡献
+* Top 商品品类
+* 配送状态分布
+* 配送状态与用户评分之间的关系
 
 ---
 
-### 3. Product & Operations
+## 关键业务发现
 
-This page analyzes product performance and delivery operations.
+### 1. 客户复购率较低
 
-Key metrics:
+整体 Repeat Rate（复购率）约为 **3.00%**。
 
-* Product GMV: R$13.22M
-* Average Delivery Time: 12.50 days
-* Late Delivery Rate: 8.11%
-* Average Review Score: 4.16
-
-The page also includes:
-
-* Product category contribution to GMV
-* Top 10 product categories
-* Delivery status distribution
-* Review score by delivery status
+绝大多数客户只完成过一次购买，说明平台在客户留存和二次购买方面仍存在明显提升空间。
 
 ---
 
-## Key Insights
+### 2. 流失客户数量较大
 
-### 1. Customer retention is low
+RFM 客户分层结果显示，**Lost Customers（流失客户）约 49,261 人**。
 
-Only 3.00% of customers are repeat customers, indicating that most customers purchase only once.
-
-This suggests an opportunity to improve customer retention through loyalty programs, targeted promotions, and personalized marketing.
-
-### 2. A large share of customers are inactive
-
-The RFM analysis identified 49,261 customers in the Lost Customers segment.
-
-This represents a major opportunity for customer reactivation campaigns.
-
-### 3. Sales are geographically concentrated
-
-São Paulo (SP) generated approximately R$5.07M in GMV, significantly more than other states.
-
-This shows that revenue is heavily concentrated in the SP market.
-
-### 4. Health & Beauty is a leading product category
-
-The health_beauty category generated approximately R$1.23M in GMV, making it one of the strongest product categories.
-
-### 5. Late delivery is associated with lower customer satisfaction
-
-Customers receiving orders On Time / Early had an average review score of approximately 4.3.
-
-Late deliveries had an average review score of approximately 2.6.
-
-This suggests that improving delivery performance could have a significant positive impact on customer satisfaction.
+可以针对这部分客户设计优惠券、召回活动、个性化推荐等运营策略，提高客户重新购买的可能性。
 
 ---
 
-## Business Recommendations
+### 3. 销售存在明显地区集中
 
-Based on the analysis:
+São Paulo（圣保罗州，SP）是 GMV 贡献最高的地区，销售额约为：
 
-* Develop retention campaigns for first-time customers.
-* Create reactivation campaigns for lost customers.
-* Prioritize high-performing product categories.
-* Continue investing in strong geographic markets such as São Paulo.
-* Reduce late deliveries to improve customer review scores.
-* Monitor delivery performance as a key customer experience metric.
+**R$5.07M**
+
+说明核心销售额集中在少数主要地区，可进一步针对高价值地区进行营销资源配置。
 
 ---
 
-## Project Structure
+### 4. 核心品类贡献明显
+
+`health_beauty`（健康美容）是销售表现最好的商品品类之一，GMV 约为：
+
+**R$1.23M**
+
+高价值品类可以作为重点商品运营和营销投入方向。
+
+---
+
+### 5. 配送延迟明显影响客户评分
+
+配送状态与客户评价之间存在明显差异：
+
+* On Time / Early（准时或提前送达）：平均评分约 **4.3**
+* Late（延迟送达）：平均评分约 **2.6**
+
+说明配送体验与客户满意度具有较强关系。
+
+降低延迟配送比例，可能有助于提高整体客户评价和购物体验。
+
+---
+
+## 业务建议
+
+基于以上分析，可以提出以下建议：
+
+1. 针对一次性客户设计二次购买激励，提高复购率。
+2. 对 RFM 中的 Lost Customers 开展客户召回活动。
+3. 加强 São Paulo 等高价值地区的营销和商品资源投入。
+4. 重点运营高 GMV 商品品类，提高核心品类销售贡献。
+5. 优化配送流程并重点监控延迟订单，以提升客户满意度。
+
+---
+
+## 项目结构
 
 ```text
-Ecommerce_Analytics_Project
+Ecommerce-Analytics-Project
 │
 ├── dashboard
 │   └── Ecommerce_Analytics_Dashboard.pbix
@@ -164,7 +178,12 @@ Ecommerce_Analytics_Project
 │   └── 03_Product_Operations.png
 │
 ├── sql
-│   └── SQL files
+│   ├── 01_data_cleaning.sql
+│   ├── 02_business_analysis.sql
+│   └── 03_powerbi_dataset.sql
 │
 └── README.md
 ```
+
+---
+
